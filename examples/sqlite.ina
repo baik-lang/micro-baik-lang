@@ -1,20 +1,21 @@
 TULIS "Belajar SQLITE3 dengan BAIK \n"
 
 ### parameter untuk database
-namadb   = "hhlite.db"
+namadb   = "data/sqlite-example.db"
 
 tulis "namadb   : ", namadb ,"\n"
 
 tulis "-----------------------------------------\n"
 
-### kalimat sql untuk operasi database
-sql = "SELECT * FROM tbl_barang "
-tulis "sql: ",sql,"\n"
-
 ### koneksi ke Sqlite database
 kon = sqlite_koneksi namadb
 
-hasil = sqlite_hasil kon, sql
+### kalimat sql untuk operasi database
+
+sql_tampil = "SELECT * FROM nama "
+tulis "sql: ",sql_tampil,"\n"
+
+hasil = sqlite_hasil kon, sql_tampil
 
 num = sqlite_total hasil
 tulis "jumlah data=", num ,"\n"
