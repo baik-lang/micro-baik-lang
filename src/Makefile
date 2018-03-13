@@ -12,7 +12,7 @@ all:
 
 install:
 	-install -d -m 755 $(PREFIX)/bin
-	-cp -R -L baik $(PREFIX)/bin/
+	-cp -R -L $(BIN_DIR)/baik $(PREFIX)/bin/
 
 uninstall:
 	rm -rf $(PREFIX)/bin/baik
