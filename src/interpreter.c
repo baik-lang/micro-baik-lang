@@ -55,7 +55,7 @@ extern int sub_deep;
 extern int isLyrSub;
 extern int isTimerSub;
 
-extern int posSub[MAX_SUB_DEPTH]; 
+extern int posSub[MAX_SUB_DEPTH];
 
 extern VAL_LABEL get_Minus_Val(void);
 
@@ -545,12 +545,12 @@ void ReadSource( void )
     getlex();
 
     if( lex.type == _LONCATLABEL ){
-      
+
       getlex();
-      
+
       if( lex.type != TYPE_IDENT )
 	Error("Salah kalimat LONCATLABEL");
-      
+
       strcpy(tmpdat.ident, lex.detail.ident);
       tmpdat.val = pg.pt;
       ValLabel( lex.detail.ident, 0, tmpdat, VAL_FLAG_SEARCH_W );
@@ -565,12 +565,12 @@ void ReadSource( void )
       memset(&sub_param, '\0', sizeof(sub_param));
 
       getlex();
-      
+
       if( lex.type != TYPE_IDENT ) {
          Error("kode SUB salah 0");
       }
 
-      valdat.val = pg.pt; 
+      valdat.val = pg.pt;
       valdat.datatype = 9;
 
       /* printf("sub name string: %s\n", lex.detail.string);
@@ -580,7 +580,7 @@ void ReadSource( void )
       // printf("sub name: %s\n", sub_name);
 
       getlex();
-      
+
 
       if( lex.type != TYPE_SYM || strncmp(lex.detail.string , "(", 1) != 0 ) {
          Error("kode SUB salah : tanpa tanda (");
@@ -605,7 +605,7 @@ void ReadSource( void )
       }
 
       // printf("sub param: %s\n", sub_param);
-      
+
       getlex();
       /* printf("sub { string: %s\n", lex.detail.string);
       */
@@ -641,12 +641,12 @@ void ReadSource( void )
       memset(&obj_name, '\0', sizeof(obj_name));
 
       getlex();
-      
+
       if( lex.type != TYPE_IDENT ) {
          Error("kode DefinisiBenda salah");
       }
 
-      objdat.val = pg.pt; 
+      objdat.val = pg.pt;
       objdat.datatype = 30;  // Class Definition
 
       strcpy(obj_name, lex.detail.string);
@@ -923,7 +923,7 @@ void ReadSource( void )
     } // end     if( lex.type == _DEF_BENDA ) {
 
   }while( lex.type != _EOF );
-  
+
   memset( &lex, 0, sizeof(BAIK_LEX) );
 
   memset(&tmpdat, '\0', sizeof(tmpdat));
@@ -1000,15 +1000,15 @@ void IncludeCodeReader( )
   inc_tmp_source = (char *)malloc(strlen(pg.source)+1);
   for(i=0; i<(int)strlen(pg.source); i++)
     inc_tmp_source[i] = pg.source[i];
-  inc_tmp_source[i] = '\0'; 
+  inc_tmp_source[i] = '\0';
 
   do{
     getlex();
 
     if( lex.type == _LONCATLABEL ) {
-      
+
       getlex();
-      
+
       if( lex.type != TYPE_IDENT ) {
          Error("kode LONCATLABEL salah");
       }
@@ -1092,14 +1092,14 @@ void IncludeCodeReader( )
     if(pg.source != NULL) free (pg.source);
     pg.source = (char *)malloc(strlen(allsrc)+1);
     for(i=0; i<(int)strlen(allsrc); i++)
-      pg.source[i] = allsrc[i];  
+      pg.source[i] = allsrc[i];
     pg.source[i] = '\0';
 
     if(allsrc != NULL)
       free( allsrc );
-    
+
    if(inc_tmp_source != NULL)
-     free( inc_tmp_source );    
+     free( inc_tmp_source );
 
 
     //printf("&&&&&&&&&&&&&&&&&&&&&&\n");
@@ -1114,7 +1114,7 @@ void IncludeCodeReader( )
   memset(&lineCode, '\0', sizeof(lineCode));
   memset(&entireCode, '\0', sizeof(entireCode));
 
-  
+
   // printf("Include File finished ...\n");
 
 }
@@ -1200,10 +1200,10 @@ void Interpreter( void )
       case _MUSIK:
         keyMusik();
       break;
-      
+
       case _MUSIK_BGM:
         keyMusikBGM();
-      break;      
+      break;
 
       case _JENDELA:
         // Windows Only
@@ -1234,7 +1234,7 @@ void Interpreter( void )
               }
               returnVal.datatype = 3;
 	      break;
-	    
+
 	    case TYPE_NUM:
               returnVal.val = lex.detail.num;
               returnVal.datatype = 0;
@@ -1305,7 +1305,7 @@ void Interpreter( void )
 	else
 	  Error("Salah kalimat Masuk");
 	break;
-	
+
       // # ############################ PILIH ###############################
       case _PILIH:
        keyPilih();
@@ -1321,7 +1321,7 @@ void Interpreter( void )
       break;
       // # ############################ -PILIH- ###############################
 
-      // # ############################ KALAU ################################	
+      // # ############################ KALAU ################################
       case _KALAU:
         keyKalau();
 		// printf("after KALAU: curr result %d\n", currKalauResult[if_deep]);
@@ -1334,7 +1334,7 @@ void Interpreter( void )
 		} else {
 	      do {
 	       getlex();
-	      }while( (lex.type != _STOPKALAU ) && 
+	      }while( (lex.type != _STOPKALAU ) &&
                    lex.type != _EOF );
 	      if( lex.type == _EOF )
 	        Error("KALAU tanpa STOPKALAU");
@@ -1504,14 +1504,14 @@ void Interpreter( void )
         //we need to initialize all these functions so that gtk knows
         //to be thread-aware
         #ifdef WIN32
-        if (!g_thread_supported()){ 
+        if (!g_thread_supported()){
           g_thread_init(NULL);
         }
 
         gdk_threads_init();
         gdk_threads_enter();
         #endif
-        
+
         gtk_set_locale();
 
         gtk_init(NULL, NULL);
@@ -2215,7 +2215,7 @@ void Interpreter( void )
           // printf(" GLOBAL %s lex.type %d\n", ident, lex.type);
 	      if( lex.type == TYPE_IDENT ){
             memset(&tmpdat,'\0',sizeof(tmpdat));
-			tmpdat.scope = 2;  // set to GLOBAL 
+			tmpdat.scope = 2;  // set to GLOBAL
             ValLabel( ident , sub_deep, tmpdat, VAL_FLAG_SEARCH_W );
           } else
 	      if( lex.type == TYPE_ARRAY ){
@@ -2224,7 +2224,7 @@ void Interpreter( void )
 			getArrayName(lex.detail.array_str, (char *)&ident);
 
             memset(&tmpdat,'\0',sizeof(tmpdat));
-			tmpdat.scope = 2;  // set to GLOBAL 
+			tmpdat.scope = 2;  // set to GLOBAL
 			//printf(" GLOBAL %s scope %d\n", ident, tmpdat.scope);
             ValLabel( ident , sub_deep, tmpdat, VAL_FLAG_SEARCH_W );
           } else {
@@ -2288,7 +2288,7 @@ void Interpreter( void )
 
       case _END:
 	    lex.type = _EOF;
-		BaikGarbageCollection();
+		//BaikGarbageCollection();
 	  break;
 
       case TYPE_SYM:
@@ -2481,7 +2481,7 @@ void Interpreter( void )
       default:
 	    Error("Perintah tidak dimengerti: %s , nilai kode %d ", lex.detail.ident, lex.type);
 	break;
-    
+
     }
 
   //memset(&tmpdat, '\0', sizeof(tmpdat));
@@ -2489,4 +2489,3 @@ void Interpreter( void )
 
 
 }
-

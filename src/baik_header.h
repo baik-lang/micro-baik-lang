@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------
-//  
-// BAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15 
+//
+// BAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15
 // Object Oriented Programming Language
 //
 // BAIK ver.8.15 Ready for Professional Web, Desktop and Cloud Computing
@@ -81,10 +81,10 @@ extern DIR *owndir;
 
 #include "val_label.h"
 
-extern BAIK_LEX lex;  
-extern BAIK_ADDR pg;  
+extern BAIK_LEX lex;
+extern BAIK_ADDR pg;
 
-extern BAIK_ADDR tmp_pg; 
+extern BAIK_ADDR tmp_pg;
 
 #include "baik_lexer.h"
 #include "haris_node_struct.h"
@@ -101,13 +101,10 @@ extern BAIK_ADDR tmp_pg;
 // ---------------------------------------------------------------------
 
 void showBaikVersion() {
-  fprintf( stderr, "BAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15\n");
-  fprintf( stderr, "Dengan implementasi GPIO, OOP, DB, Anim, PDF dan UTF-8 \n");
+  fprintf( stderr, "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15\n");
   fprintf( stderr, "Copyright Haris Hasanudin 2005-2014\n\n");
   fprintf( stderr, "cara pakai: baik [-v|-h ] <source file>\n");
   fprintf( stderr, "-v : lihat versi\n" );
   fprintf( stderr, "-h : lihat cara pakai\n" );
   exit(0);
 }
-
-
