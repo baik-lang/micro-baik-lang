@@ -3,9 +3,9 @@ a = 0
 tulis "a awalnya: ", a, "\n"
 
 selagi (a < 10) lakukan
-b = &FungsiNama()
-a = a + 1
-tulis "a selagi: ", a, " ", b
+  b = &FungsiNama()
+  a = a + 1
+  tulis "a selagi: ", a, " ", b
 baliklagi
 
 tulis "\n\n"
@@ -13,6 +13,7 @@ tulis "\n\n"
 
 x = 11
 y = 22
+
 tulis "x = ", x, "\n"
 tulis "y = ", y, "\n"
 
@@ -24,14 +25,14 @@ tamat
 # #########################################3
 
 fungsi Jumlah(m, n) {
-c = m + n
+  c = m + n
 
-tulis "c = ", c, "\n"
-balik c
+  tulis "c = ", c, "\n"
+  balik c
 }
 
 fungsi FungsiNama () {
-y = "BAIK Scripting Language\n"
-balik y
+  y = "BAIK Scripting Language\n"
+  balik y
 }
 
