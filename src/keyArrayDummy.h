@@ -31,9 +31,9 @@ void keyArrayDummy (char array_str[MAX_STRING_LEN])
   memset(&tmpstr, '\0', sizeof(tmpstr));
   memset(&class_tmpvar, '\0', sizeof(class_tmpvar));
 
-       
+
          // printf("dummy array = %d, tmp renban %d\n", checkDummyArray(lex.detail.array_str), renban );
-         
+
          getArrayName(array_str, (char *)&valdat.array_str);
          getArrayName(array_str, (char *)&valdat.array_name);
          strcpy(valdat.array_idx, "0");
@@ -116,8 +116,8 @@ void keyArrayDummy (char array_str[MAX_STRING_LEN])
 	         Error("PISAH: masukan data salah");
            } else {
              /*
-             printf("a: %s\n", dat_a); 
-             printf("b: %s\n", dat_b); 
+             printf("a: %s\n", dat_a);
+             printf("b: %s\n", dat_b);
              */
 
              if(tmpdat.datatype == 10) {
@@ -316,21 +316,23 @@ void keyArrayDummy (char array_str[MAX_STRING_LEN])
              split_free(get);
 
              ValLabel( valdat.array_name, sub_deep, valdat, VAL_FLAG_SEARCH_W );
-             memset(&valdat, '\0', sizeof(valdat));                          
+             memset(&valdat, '\0', sizeof(valdat));
 
              #ifdef WINDOWS
   	         if(dirtp != NULL) {
 	           free (dirtp);
 	         }
              #else
+             #ifndef ESP8266
              if(owndir != NULL) {
                closedir (owndir);
              }
              #endif
+             #endif
 
              /* printf("write dummy array ok\n"); */
 
-		 } 
+		 }
          /* printf("endif array FUNC OK\n"); */
 
   if(valdat.filename != NULL)
@@ -366,4 +368,3 @@ void keyArrayDummy (char array_str[MAX_STRING_LEN])
     free(tmpdat.pnext);
 
 }
-

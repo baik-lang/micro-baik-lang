@@ -26,8 +26,8 @@
 #pragma warning(disable:4244)
 #endif
 
-extern BAIK_LEX lex;  
-extern BAIK_ADDR pg;  
+extern BAIK_LEX lex;
+extern BAIK_ADDR pg;
 
 #define MAX_SUB_DEPTH  64
 
@@ -66,7 +66,7 @@ void InterpreterSub( int endSub, char subName[MAX_STRING_LEN] )
 
        Interpreter();
 
-    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0 
+    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0
             && lex.type != _EOF );
 
     sub_deep--;
@@ -90,7 +90,7 @@ void InterpreterLyrSub( int endSub, char subName[MAX_STRING_LEN] )
 
        Interpreter();
 
-    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0 
+    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0
             && lex.type != _EOF );
 
     isLyrSub = 0;
@@ -118,7 +118,7 @@ int InterpreterTimerSub( int endSub, char subName[MAX_STRING_LEN] )
 	      break;
        }
 
-    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0 
+    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0
             && lex.type != _EOF );
 
     isTimerSub = 0;
@@ -156,7 +156,7 @@ void InterpreterParam( int progType, int endSub, char subName[MAX_STRING_LEN] )
     // printf("param src: %s\n", pg.source);
 
     do{
-         
+
       // first ident
       getlex();
       // printf("type %d ident: %s\n", lex.type, lex.detail.string);
@@ -172,7 +172,7 @@ void InterpreterParam( int progType, int endSub, char subName[MAX_STRING_LEN] )
 	    if( lex.type == _EOF )
           Error("interupsi yang tidak diinginkan");
 
-        if( lex.detail.symbol != '=' )    
+        if( lex.detail.symbol != '=' )
           Error("ident salah masukan");
 
         // get value
@@ -214,7 +214,7 @@ void InterpreterParam( int progType, int endSub, char subName[MAX_STRING_LEN] )
 
     }while( lex.type != _EOF && strncmp(lex.detail.string , "}", 1) != 0  );
 
-  } 
+  }
 
 }
 
@@ -223,7 +223,7 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
   int i=0;
   VAL_LABEL valdat, valdat2, datx, tmpdat, tmpdat2;
   char ident[MAX_STRING_LEN];
-  char  class_tmpvar[MAX_STRING_LEN];  
+  char  class_tmpvar[MAX_STRING_LEN];
 
   long idx=0;                           // array index
   int tmp_deep = 0;
@@ -260,7 +260,7 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 	tmp_deep = sub_deep;
 
     do{
-         
+
       // sub inside Lyr Function
 	  // printf("inside lyr func loop : sub_deep %d, tmp_deep %d, isLyrSub %d\n", sub_deep, tmp_deep, isLyrSub);
 
@@ -283,7 +283,7 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 	    if( lex.type == _EOF )
           Error("interupsi yang tidak diinginkan");
 
-        if( lex.detail.symbol != '=' )    
+        if( lex.detail.symbol != '=' )
           Error("ident salah masukan");
 
 		// ///////////////////////
@@ -318,7 +318,7 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 
 		  //printf("ident %s, sub deep %d\n", lex.detail.ident, sub_deep);
 
-          if(currentClass != NULL && strlen(currentClass) > 0) {
+          if(!currentClass && strlen(currentClass) > 0) {
             sprintf(class_tmpvar, "%s->%s", currentClass, lex.detail.string);
 	        //printf("tulis: construct class var: %s , deep %d\n", class_tmpvar, class_sub_deep);
 			//printf("start Class ValLabel ...\n");
@@ -338,7 +338,7 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 			  sub_deep = 0;
 			  tmp_deep = sub_deep;
 
-			  if (currentClass != NULL && strlen(currentClass) > 0) {
+			  if (!currentClass && strlen(currentClass) > 0) {
 				  sprintf(class_tmpvar, "%s->%s", currentClass, lex.detail.string);
 				  //printf("tulis: construct class var: %s , deep %d\n", class_tmpvar, class_sub_deep);
 				  //printf("start Class ValLabel ...\n");
@@ -370,7 +370,7 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 		   // printf("show NOT digit : %s\n", valdat.array_idx);
                    /* Read index param */
 
-                   if(currentClass != NULL && strlen(currentClass) > 0) {
+                   if(!currentClass && strlen(currentClass) > 0) {
                      sprintf(class_tmpvar, "%s->%s", currentClass, valdat.array_idx);
                      tmpdat = ValLabel( class_tmpvar, sub_deep, tmpdat, VAL_FLAG_SEARCH_R );
 		   } else {
@@ -388,14 +388,14 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 
 		        // get real value of array
 		        // printf("search array: %s\n", valdat.array_name);
-                if(currentClass != NULL && strlen(currentClass) > 0) {
+                if(!currentClass && strlen(currentClass) > 0) {
 		  memset(&class_tmpvar, '\0', sizeof(class_tmpvar));
                   sprintf(class_tmpvar, "%s->%s", currentClass, valdat.array_name);
                   valdat2 = ValLabel( class_tmpvar, class_sub_deep, valdat, VAL_FLAG_SEARCH_R );
 		} else {
                   valdat2 = ValLabel( valdat.array_name, sub_deep, valdat, VAL_FLAG_SEARCH_R );
 		}
-		
+
                 // ltoa(idx, valdat2.array_idx, 10);
 		        sprintf(valdat2.array_idx, "%li", idx);
 
@@ -406,20 +406,20 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
                 //printf("valdat2 array name %s \n", valdat2.array_name);
                 //printf("valdat2 array_idx %d \n", idx);
 
-                if(valdat2.datatype == 60) {  // Array GUI 
+                if(valdat2.datatype == 60) {  // Array GUI
                   #ifdef USE_GTK2
                   datx.widget   = get_gui_array(valdat2, idx);
 		  datx.eventbox = get_eventbox_array(valdat2, idx);
 		  datx.GUItype  = get_guitype_array(valdat2, idx);
-		  
+
 		  //printf("interpretLyrParam : get GUI array, GUItype %d\n", datx.GUItype);
                   #endif
                 } else {
                   Error("salah jenis untaian");
                 }
-                
+
               } else {
-                // printf("NOT start...\n");              
+                // printf("NOT start...\n");
               }
 
               datx.datatype = 40;
@@ -431,7 +431,7 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 	    //printf("saving dbl ...%f\n", datx.floatdata);
         // save ident
 
-        if(currentClass != NULL && strlen(currentClass) > 0) {
+        if(!currentClass && strlen(currentClass) > 0) {
 	      memset(&class_tmpvar, '\0', sizeof(class_tmpvar));
           sprintf(class_tmpvar, "%s->%s", currentClass, ident);
 	      //printf("saving class var: %s %s\n", class_tmpvar);
@@ -451,6 +451,6 @@ void InterpreterLyrParam( int progType, int endSub, char subName[MAX_STRING_LEN]
 	if (isReSearch) {
 		sub_deep = tmp_deep;
 	}
-  } 
+  }
 
 }

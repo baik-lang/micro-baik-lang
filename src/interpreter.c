@@ -93,22 +93,22 @@ extern char** win_dir_content(const char *path);
 
 #else
 
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
+
 #include <sys/types.h>
 #include <fcntl.h>
 #include <regex.h>
-
 #include <unistd.h>
 #include <sys/param.h>
 
+#ifndef ESP8266
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #include <arpa/inet.h>
 #include <sys/select.h>
-
 #include <dirent.h>
-
 DIR *owndir;
+#endif
 
 #endif
 

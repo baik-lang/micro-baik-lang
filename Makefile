@@ -4,6 +4,8 @@ BUILD_DIRS := src
 
 all: $(BUILD_DIRS)
 
+esp8266: $(BUILD_DIRS)
+
 install: $(BUILD_DIRS)
 
 uninstall: $(BUILD_DIRS)

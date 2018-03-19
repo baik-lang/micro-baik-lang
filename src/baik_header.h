@@ -27,18 +27,20 @@ void Error( const char *format, ... );
 
 #else
 
+#ifndef ESP8266
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <arpa/inet.h>
+#include <sys/select.h>
+#endif
+
 #include <sys/types.h>
 #include <fcntl.h>
 #include <regex.h>
 
 #include <unistd.h>
 #include <sys/param.h>
-
-#include <arpa/inet.h>
-#include <sys/select.h>
 //#include "ux_pingbody.h"
 
 #include <dirent.h>
