@@ -291,7 +291,6 @@ int main( int argc, char *argv[] )
   pg.back_pt = 0;
 
   fread( pg.source, 1, st.st_size, fp );
-  printf("crot : %s\n", pg.source);
 
   // ------------------------------------------------------------
   tmp_pg.source = (char *)calloc(st.st_size + 1, sizeof(char));
