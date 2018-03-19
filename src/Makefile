@@ -6,7 +6,7 @@ BIN_DIR = ../bin
 all:
 	@echo "Compiling.........................."
 	@mkdir -p $(BIN_DIR)
-	@gcc -o $(BIN_DIR)/baik -DUSE_SQLITE $(INCLUDES) $(LIBS) tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c sqlite_common.c -lpthread -lm -lsqlite3 -lgd
+	@gcc -o $(BIN_DIR)/baik -DUSE_SQLITE $(INCLUDES) $(LIBS) tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c sqlite_common.c -lpthread -lm -lsqlite3
 	@echo "................................................"
 	@echo "Makefile: Available actions: install, uninstall"
 
