@@ -49,8 +49,8 @@ VAL_LABEL AddSub( void  );
 VAL_LABEL MultiDiv( void  );
 VAL_LABEL Factor( void );
 
-void ReadSource( void );
-void Interpreter( void );
+int ReadSource( void );
+int Interpreter( void );
 
 //int expression( void );
 //int AndOr( void );
@@ -59,4 +59,3 @@ void Interpreter( void );
 //int AddSub( void );
 //int MulDiv( void );
 //int Factor( void );
-

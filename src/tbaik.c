@@ -68,9 +68,6 @@
 #include <errno.h>
 
 #include "baik_header.h"
-
-#define MAX_INPUT_SZ 256
-int REPL_HEADER = 1;
 // ------------------------------------------------------------------
 
 extern void BaikGarbageCollection(void);
@@ -149,76 +146,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszCmdLine, int 
 
 #endif
 
-int repl()
-{
-  struct stat st;
-  char *input = (char *)calloc(st.st_size + 1, sizeof(char));
-  if(input == NULL){
-    printf("kesalahan internal: calloc error\n");
-    return 1;
-  }
-
-  if(REPL_HEADER){
-    printf( "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15\n");
-    printf( "Copyright Haris Hasanudin 2005-2014");
-    REPL_HEADER = 0;
-  }
-  printf("\nbaik >> ");
-  /* Get the input, with size limit. */
-  fgets(input, st.st_size, stdin);
-  if ((strlen(input) > 0) && (input[strlen (input) - 1] == '\n'))
-        input[strlen (input) - 1] = '\0';
-
-  pg.source = (char *)calloc(st.st_size + 1, sizeof(char));
-  if( pg.source == NULL ){
-	fprintf( stderr, "kesalahan internal: calloc error\n" );
-    exit( 0 );
-  }
-  pg.pt      = 0;
-  pg.back_pt = 0;
-  //strcat(input,"\n");
-  //pg.source = input;
-  strcpy(pg.source,input);
-
-  tmp_pg.source = (char *)calloc(st.st_size + 1, sizeof(char));
-  if( tmp_pg.source == NULL ){
-	fprintf( stderr, "kesalahan internal: calloc error\n" );
-    exit( -1 );
-  }
-  //tmp_pg.source = input;
-  strcpy(tmp_pg.source,input);
-
-  //printf("%s\n",pg.source);
-  //free(input);
-  BaikInit();
-  // Read Include File and add into Main Prog
-  IncludeCodeReader();
-
-  pg.pt      = 0;
-  pg.back_pt = 0;
-  memset( &lex, 0, sizeof(BAIK_LEX) );
-
-  ReadSource();
-
-  pg.pt      = 0;
-  pg.back_pt = 0;
-  memset( &lex, 0, sizeof(BAIK_LEX) );
-
-  memset(&returnVal, '\0', sizeof(returnVal));
-  do{
-    Interpreter();
-  }while( lex.type != _EOF );
-
-  //BaikGarbageCollection();
-  return 0;
-}
-
 int main( int argc, char *argv[] )
 {
   FILE *fp=NULL;
   struct stat st;
   char **get=NULL;
   int  useDefault = 0;
+  pg.repl_active = 0;
 
   #ifdef USE_GTK2
   gchar *mainFile = "./utama.ina";

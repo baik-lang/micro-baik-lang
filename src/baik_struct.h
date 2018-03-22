@@ -130,6 +130,9 @@ typedef struct
   int pt;                   /* current position of parsing */
   int back_pt;              /* last position after parsing */
   char *source;             /* source of parsing in string */
+  char *input;
+  int repl_active;
+  int repl_error;
 } BAIK_ADDR;
 
 // //////////////////////////////////////////////////////////////////////////////
@@ -171,9 +174,9 @@ typedef struct varstack_list{
          sub_file[MAX_STRING_LEN];    /* function include file                */
 
   int    sub_pt_start;              /* function start pos                   */
-  int    sub_pt_end;                /* function stop pos       @           */
+  int    sub_pt_end;                /* function stop pos       ï¿½@           */
   int    sub_pt_return;             /* function return pos                  */
-  
+
   // ------------------------------------------------------------------------
   FILE   *filedata;                 /* file                                 */
   int    isFileOpen;                /* file open stat                       */
@@ -329,33 +332,33 @@ struct all_class_params {
 
 
 
-  /* type of variableF 
-        0->int, 1->double, 
-        2->File, 3->String, 
-        4->SocketTCP, 5->SocketUDP, 
+  /* type of variableï¿½F
+        0->int, 1->double,
+        2->File, 3->String,
+        4->SocketTCP, 5->SocketUDP,
         6->Array int, 7->Array double, 8->Array String,
         9->function, 10->pointer str,
         11->mysql_con, 12->mysql_res, 13->mysql_fd, 14->mysql_row
         20->gdImagePtr, 21->gdPoint, 22->gdFont
         30->Class Definition,31->Class Instance,32->Class function
-        33->Array object                                           
+        33->Array object
 
 		40->GTK widget
 
 		41->KertasText
 		42->FontFromDialog   // font_desc
-		43->ColorFromDialog 
-		44->FilenameFromDialog 
+		43->ColorFromDialog
+		44->FilenameFromDialog
 		45->Data Baris Tabel - including string and pixbuf
 		46->Single Pixbuf data
 		47->Kantong Teks = gtk_list_store - String List
-		48->GtkEntryCompletion 
+		48->GtkEntryCompletion
 		50->GtkTextBuffer
-		51->Clipboard  
+		51->Clipboard
 		52->Kantong Angka  = gtk_list_store - Int List
 		53->Kantong Gambar = gtk_list_store - Pixbuf List
 		54->Kantong Teks, Angka, Gambar = gtk_list_store - String+Int+Pixbuf List
-		
+
 		55->GtkTreeIter
 		56->GtkTreeStore
 		57->GtkCellRenderer
@@ -378,7 +381,7 @@ struct all_class_params {
   // 1 Alas Tetap - fixed container
   // 2 Alas Tegak - vbox container
   // 3 Tombol - Button
-  // 4 Label 
+  // 4 Label
   // 5 Input - masukan
   // 6 Combo Text - pilihan
   // 7 Tombol Radio
@@ -386,7 +389,7 @@ struct all_class_params {
   // 9 Menu Separator
   // 10 IsiMenu - MenuItem
   // 11 Expander - perinci
-  // 12 Kertas - Text Area 
+  // 12 Kertas - Text Area
   // 13 SpinButton - TombolPutar
   // 14 Check Button
   // 15 data dr Font SelectionDialog (font)
@@ -397,7 +400,7 @@ struct all_class_params {
 
   // 21 scrolled window
 
-  // 21 Tabel 
+  // 21 Tabel
   // 22 Citra - GtkImage
 
   // 6 MnuBar

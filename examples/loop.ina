@@ -10,7 +10,6 @@ baliklagi
 
 tulis "\n\n"
 
-
 x = 11
 y = 22
 
@@ -35,4 +34,3 @@ fungsi FungsiNama () {
   y = "BAIK Scripting Language\n"
   balik y
 }
-

@@ -15,8 +15,8 @@
 #pragma warning(disable:4244)
 #endif
 
-extern BAIK_LEX lex;  
-extern BAIK_ADDR pg;  
+extern BAIK_LEX lex;
+extern BAIK_ADDR pg;
 
 #define MAX_CLASS_SUB_DEPTH  64
 extern class_sub_deep;
@@ -25,7 +25,7 @@ extern char currentClass[MAX_STRING_LEN];
 
 extern void varstack_printData(void);
 
-extern void Interpreter( void  );
+extern int Interpreter( void  );
 
 void InterpreterClassSub( int endSub, char className[MAX_STRING_LEN] )
 {
@@ -42,7 +42,7 @@ void InterpreterClassSub( int endSub, char className[MAX_STRING_LEN] )
 
        Interpreter();
 
-    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0 
+    }while( pg.pt <= endSub && strncmp(lex.detail.string , "}", 1) != 0
             && lex.type != _EOF );
 
     //}while( pg.pt <= endSub && lex.type != _EOF );
@@ -82,7 +82,7 @@ void InterpreterClassParam( int progType, int endSub, char className[MAX_STRING_
     // printf("class func param src: %s\n", pg.source);
 
     do{
-         
+
       // first ident
       getlex();
       // printf("type %d ident: %s\n", lex.type, lex.detail.string);
@@ -98,7 +98,7 @@ void InterpreterClassParam( int progType, int endSub, char className[MAX_STRING_
 	    if( lex.type == _EOF )
           Error("interupsi yang tidak diinginkan");
 
-        if( lex.detail.symbol != '=' )    
+        if( lex.detail.symbol != '=' )
           Error("ident salah masukan");
 
         // get value
@@ -143,6 +143,6 @@ void InterpreterClassParam( int progType, int endSub, char className[MAX_STRING_
 
     }while( lex.type != _EOF && strncmp(lex.detail.string , "}", 1) != 0  );
 
-  } 
+  }
 
 }

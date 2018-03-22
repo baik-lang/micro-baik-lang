@@ -33,7 +33,7 @@ extern BAIK_ADDR tmp_pg;
 
 extern char last_ident[MAX_STRING_LEN];
 
-void Interpreter( void );
+int Interpreter( void );
 extern void BaikGarbageCollection(void);
 
 extern void InterpreterSub( int endSub, char subName[MAX_STRING_LEN] );
@@ -501,7 +501,7 @@ void BAIK_funcword( void )
   //funcword_printData();
 }
 
-void ReadSource( void )
+int ReadSource( void )
 {
   VAL_LABEL tmpdat;
   VAL_LABEL valdat;
@@ -549,7 +549,7 @@ void ReadSource( void )
       getlex();
 
       if( lex.type != TYPE_IDENT )
-	Error("Salah kalimat LONCATLABEL");
+	     Error("Salah kalimat LONCATLABEL");
 
       strcpy(tmpdat.ident, lex.detail.ident);
       tmpdat.val = pg.pt;
@@ -1122,7 +1122,7 @@ void IncludeCodeReader( )
 
 // ///////////////////////////////////////////////////////////////////////////////
 
-void Interpreter( void )
+int Interpreter( void )
 {
   char ident[MAX_IDENT_LEN];
   VAL_LABEL tmpdat; // saving value
@@ -1278,9 +1278,10 @@ void Interpreter( void )
 	         // printf ("return IDENT OK, try to go to ending ...\n");
 	         while( lex.type != TYPE_SYM && lex.detail.symbol != '}' ) {
                     getlex();
-	            if( lex.type == _EOF )
+	            if( lex.type == _EOF ){
 	              Error("RETURN error");
-                 }
+              }
+           }
 	      }
 
 	      break;
@@ -2325,8 +2326,10 @@ void Interpreter( void )
 	getlex();
         //printf (" after ident %c\n",lex.detail.symbol);
 
-        if( lex.type == _EOF )
+        if( lex.type == _EOF ){
           Error("TYPE_IDENT salah: diluar perkiraan");
+          return 0;
+        }
 
 	if( lex.detail.symbol == '=' || lex.detail.symbol == '+' || lex.detail.symbol == '-') {
           // substitusi atau ++ atau --
@@ -2486,6 +2489,6 @@ void Interpreter( void )
 
   //memset(&tmpdat, '\0', sizeof(tmpdat));
   //memset(&valdat, '\0', sizeof(valdat));
-
+  return 1;
 
 }

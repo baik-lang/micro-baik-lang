@@ -103,8 +103,8 @@ extern VAL_LABELFactor( void );
 extern void BAIK_funcword( void );
 
 extern void IncludeCodeReader( void );
-extern void ReadSource( void );
-extern void Interpreter( void );
+extern int ReadSource( void );
+extern int Interpreter( void );
 
 char** split(const char *str, const char *delim);
 void split_free(char **arr);
@@ -172,7 +172,7 @@ void BaikGarbageCollection(void);
 void chop(char* input)
 {
     int i;
-    
+
     for(i=0; input[i]!='\r' && input[i]!='\n'; i++){
         //do nothing
     }
@@ -476,7 +476,77 @@ long createRenban(int mynum)
   return myrenban;
 }
 
+/* ----------------------------------------------------------- */
+/* REPL function                                               */
+/* ----------------------------------------------------------- */
+#define MAX_INPUT_SZ 256
+int REPL_HEADER = 1;
+extern int repl()
+{
+  struct stat st;
+  pg.input = (char *)calloc(st.st_size + 1, sizeof(char));
+  if(pg.input == NULL){
+    printf("kesalahan internal: calloc error (char *input)\n");
+    return 1;
+  }
 
+  if(REPL_HEADER){
+    printf( "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15\n");
+    printf( "Copyright Haris Hasanudin 2005-2014");
+    REPL_HEADER = 0;
+    pg.repl_active = 1;
+  }
+  printf("\nbaik >> ");
+  /* Get the input, with size limit. */
+  fgets(pg.input, st.st_size, stdin);
+  if ((strlen(pg.input) > 0) && (pg.input[strlen (pg.input) - 1] == '\n'))
+        pg.input[strlen (pg.input) - 1] = '\0';
+
+  pg.source = (char *)calloc(st.st_size + 1, sizeof(char));
+  if( pg.source == NULL ){
+	  fprintf( stderr, "kesalahan internal: calloc error (pg.source)\n" );
+    exit( 0 );
+  }
+  pg.pt      = 0;
+  pg.back_pt = 0;
+  //strcat(input,"\n");
+  //pg.source = input;
+  strcpy(pg.source,pg.input);
+
+  tmp_pg.source = (char *)calloc(st.st_size + 1, sizeof(char));
+  if( tmp_pg.source == NULL ){
+	fprintf( stderr, "kesalahan internal: calloc error (tmp_pg.source)\n" );
+    exit( -1 );
+  }
+  //tmp_pg.source = input;
+  strcpy(tmp_pg.source,pg.input);
+
+  //printf("%s\n",pg.source);
+  //free(input);
+  //BaikInit();
+  // Read Include File and add into Main Prog
+  IncludeCodeReader();
+
+  pg.pt      = 0;
+  pg.back_pt = 0;
+  memset( &lex, 0, sizeof(BAIK_LEX) );
+
+  ReadSource();
+
+  pg.pt      = 0;
+  pg.back_pt = 0;
+  memset( &lex, 0, sizeof(BAIK_LEX) );
+
+  memset(&returnVal, '\0', sizeof(returnVal));
+  do{
+    if(!Interpreter()){
+      lex.type = _EOF;
+    }
+  }while( lex.type != _EOF );
+
+  //BaikGarbageCollection();
+  return 0;
+}
 /* ----------------------------------------------------------- */
 /* Create time based on the current date */
 /* ----------------------------------------------------------- */
@@ -1019,7 +1089,7 @@ int dayofweek(int year,int month,int day)
                 year--;
                 month += 12;
         }
-        
+
         return (year + (year / 4) - (year / 100) + (year / 400) +
                                 ((13 * month + 8) / 5) + day) % 7;
 }
@@ -1164,7 +1234,7 @@ void writeLog(char msg[MAX_STRING_LEN]) {
     strcpy(filename , "yyyymmdd.log");
   } else {
     // if(isDEBUG == 1) printf("filename : %s\n", filename);
- 
+
     fp = fopen(filename, "a");
     if(fp == NULL) {
        printf("Salah: Tidak bisa tulis ke File\n");
@@ -1335,6 +1405,7 @@ void Error( const char *format, ... )
 {
   va_list list;
   char msg[256];
+  struct stat st;
 
   memset(&msg, '\0', sizeof(msg));
   if(strlen(currentSub) > 0) {
@@ -1354,16 +1425,34 @@ void Error( const char *format, ... )
 	fprintf( stderr, "posisi pada atau sebelum: %s %s\n", last_ident, lex.detail.ident);
     #endif
   }
-  
+
   va_start( list, format );
   vfprintf( stderr, format, list );
   va_end( list );
-  
+
   fprintf( stderr, "\n");
 
-  BaikGarbageCollection();
-
-  exit(0);
+  if(pg.repl_active){
+    printf("crot : %d\n", pg.input);
+    //if(pg.source != NULL) {
+    //printf(pg.source);
+    // if(pg.input > 0){
+    //free(pg.input);
+    // }
+    // free(tmp_pg.source);
+    //free(pg.input);
+    //BaikGarbageCollection();
+    //printf("..................");
+    //}
+    //pg.repl_error = 1;
+    //BaikGarbageCollection();
+    //repl();
+    //break;
+  }
+  else{
+    BaikGarbageCollection();
+    exit(0);
+  }
 }
 
 
@@ -1409,7 +1498,7 @@ int checkParamNum(char get_param[MAX_STRING_LEN], char orig_param[MAX_STRING_LEN
    // printf("origNum %d \n", origNum);
 
    get = NULL;
-   orig = NULL;   
+   orig = NULL;
 
    if(getNum == origNum)
      return 0;
@@ -1482,8 +1571,8 @@ void subtituteParam(char tmp_param[MAX_STRING_LEN*2], char get_param[MAX_STRING_
 // split case sensitive ! do not change 2010-09-18
 char** split(const char *str, const char *delim)
 {
-	char **arr = '\0'; 
-	int    n   = 0;    
+	char **arr = '\0';
+	int    n   = 0;
 	char *buf=NULL, *tp=NULL;
 
 	if (str == '\0' || delim == '\0') {
@@ -1561,8 +1650,9 @@ void BaikGarbageCollection(void) {
   // clear source
   free( pg.source );
   free( tmp_pg.source );
+  free(pg.input);
 
-  exit(0);
+  //exit(0);
 
 }
 
@@ -1607,4 +1697,3 @@ void BaikInit(void) {
 
 
 // Software BAIK ini dilindungi Hak Cipta dan Undang-Undang //////////////////
-
