@@ -30,9 +30,11 @@ void keyPerintah ()
 	  switch( lex.type )
 	    {
 	    case TYPE_STR:
-	      system( lex.detail.string );
+        #ifndef IOS
+	       system( lex.detail.string );
+        #endif
 	      break;
-	    
+
 	    case TYPE_OBJECT:
               checkObjectValidation(lex.detail.object_str);
 	    case TYPE_IDENT:
@@ -56,9 +58,11 @@ void keyPerintah ()
 
               if(valdat.str != '\0' && strlen(valdat.str) > 0) {
                 #ifdef WINDOWS
-				  WinExec((const char*)valdat.str,SW_HIDE);
+				          WinExec((const char*)valdat.str,SW_HIDE);
                 #else
-                  system( valdat.str );
+                  #ifndef IOS
+                    system( valdat.str );
+                  #endif
                 #endif
               }
 
@@ -73,4 +77,3 @@ void keyPerintah ()
 
 	ungetlex();
 }
-

@@ -1,7 +1,14 @@
 INSTALL_LOG = install.log
 VERSION = 8.15
 BIN_DIR = ../bin
-.PHONY : all install uninstall clean
+
+GCC_BIN_IOS=`xcrun -sdk iphoneos -find gcc`
+GCC_IOS=$(GCC_BASE_IOS) -arch armv7 -arch armv7s -arch arm64
+SDK_IOS=`xcrun -sdk iphoneos --show-sdk-path`
+CFLAGS_IOS = -DIOS
+GCC_BASE_IOS = $(GCC_BIN_IOS) -Os $(CFLAGS_IOS) -isysroot $(SDK_IOS) -F$(SDK_IOS)/System/Library/Frameworks -F$(SDK_IOS)/System/Library/PrivateFrameworks
+
+.PHONY : all install uninstall clean ios
 
 all:
 	@echo "Compiling.........................."
@@ -16,6 +23,12 @@ esp8266:
 	@xtensa-lx106-elf-gcc -w -o $(BIN_DIR)/baik.elf -DESP8266 $(INCLUDES) $(LIBS) tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c sqlite_common.c -lpthread -lm
 	@echo "................................................"
 	@echo "Makefile: Available actions: install, uninstall"
+
+ios: tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c
+	@echo "Compiling to iOS device"
+	@mkdir -p $(BIN_DIR)
+	@$(GCC_IOS) -w -o $(BIN_DIR)/baik.ios $^ -lpthread -lm
+	@ldid -S $(BIN_DIR)/baik.ios
 
 install:
 	-install -d -m 755 $(PREFIX)/bin

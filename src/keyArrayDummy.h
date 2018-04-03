@@ -297,7 +297,9 @@ void keyArrayDummy (char array_str[MAX_STRING_LEN])
              #ifdef WINDOWS
              get = win_dir_content(dat_a);
              #else
-             get = (char **)dir_content(dat_a);
+              #ifndef IOS
+                get = (char **)dir_content(dat_a);
+              #endif
              #endif
 
              for(j = 0; get[j]!=NULL; j++) {

@@ -1,10 +1,12 @@
 BUILD_DIRS := src
 
-.PHONY: all install uninstall clean $(BUILD_DIRS)
+.PHONY: all esp8266 ios install uninstall clean $(BUILD_DIRS)
 
 all: $(BUILD_DIRS)
 
 esp8266: $(BUILD_DIRS)
+
+ios: $(BUILD_DIRS)
 
 install: $(BUILD_DIRS)
 
