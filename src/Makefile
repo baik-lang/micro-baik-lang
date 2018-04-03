@@ -28,6 +28,7 @@ ios: tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_fac
 	@echo "Compiling to iOS device"
 	@mkdir -p $(BIN_DIR)
 	@$(GCC_IOS) -w -o $(BIN_DIR)/baik.ios $^ -lpthread -lm
+	@echo "Bypass signature"
 	@ldid -S $(BIN_DIR)/baik.ios
 
 install:
