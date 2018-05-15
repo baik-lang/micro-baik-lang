@@ -7,3 +7,14 @@ uBAIK is a scripting language for IoT
 ```bash
 $ make
 ```
+
+## Install
+
+```bash
+$ sudo make install
+```
+
+## Web Assembly
+```bash
+$ baik -w source.ina
+```
