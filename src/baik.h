@@ -1694,6 +1694,83 @@ void BaikInit(void) {
 }
 
 // ///////////////////////////////////////////////////////////////////////////
+int createCsource(char filename[MAX_STRING_LEN]) {
+  FILE *fp=NULL;
+  int  len=0, i=0;
+
+  printf(filename);
+  fp = fopen(filename, "w");
+  if(fp == NULL) {
+     Error("Salah: Tidak bisa tulis ke File\n");
+  }
+
+  fprintf(fp, "// ///////////////////////////////////////// \n");
+  fprintf(fp, "// Pembuatan C Source dari Kode program BAIK \n");
+  fprintf(fp, "// ///////////////////////////////////////// \n");
+  fprintf(fp, "#include <stdio.h> \n");
+  fprintf(fp, "#include <stdlib.h> \n");
+  fprintf(fp, "#include <string.h> \n");
+  fprintf(fp, "#include <stdarg.h> \n");
+  fprintf(fp, "#include <ctype.h> \n");
+  fprintf(fp, "#include <sys/stat.h> \n");
+  fprintf(fp, "#include <time.h> \n");
+  fprintf(fp, "#include <math.h> \n");
+  fprintf(fp, "#include <limits.h> \n");
+  fprintf(fp, "#include <errno.h>\n");
+  fprintf(fp, "#include \"baik_header.h\" \n");
+  fprintf(fp, " \n");
+  fprintf(fp, "int main( int argc, char *argv[] ) { \n");
+  fprintf(fp, "   \n");
+  fprintf(fp, "   \n");
+
+  len = strlen(pg.source);
+  //printf("len %d\n",len);
+
+  fprintf(fp, "  pg.source = (char *)malloc( %d ); \n", len+1);
+  i=0;
+  while(pg.source[i] != '\0') {
+	  if(pg.source[i] == '\"') {
+            fprintf(fp, "  pg.source[ %d ] = '\\\"' ; \n", i);
+	  } else if(pg.source[i] == '\\') {
+            fprintf(fp, "  pg.source[ %d ] = '\\\\' ; \n", i);
+	  } else if(pg.source[i] == '\r') {
+            fprintf(fp, "  pg.source[ %d ] = '\\r' ; \n", i);
+	  } else if(pg.source[i] == '\n') {
+            fprintf(fp, "  pg.source[ %d ] = '\\n' ; \n", i);
+	  } else {
+	    fprintf(fp, "  pg.source[ %d ] = '%c' ; \n", i, pg.source[i]);
+	  }
+	  i++;
+  }
+  fprintf(fp, "  pg.source[ %d ] = '\\0' ; \n", i);
+
+  fprintf(fp, "  pg.pt      = 0; \n");
+  fprintf(fp, "  pg.back_pt = 0; \n");
+
+  fprintf(fp, "  memset( &lex, 0, sizeof(BAIK_LEX) ); \n");
+  fprintf(fp, "  ReadSource(); \n");
+  fprintf(fp, "   \n");
+
+  fprintf(fp, "  pg.pt      = 0; \n");
+  fprintf(fp, "  pg.back_pt = 0; \n");
+
+  fprintf(fp, "  do { \n");
+  fprintf(fp, "    Interpreter(); \n");
+  fprintf(fp, "  }while( lex.type != _EOF ); \n");
+
+  fprintf(fp, "  BaikGarbageCollection(); \n");
+
+  fprintf(fp, "  return 0; \n");
+  fprintf(fp, "} \n");
+
+  fflush(fp);
+  // printf("createC : file flush OK\n");
+
+  fclose(fp);
+
+
+  return 0;
+}
 
 
 // Software BAIK ini dilindungi Hak Cipta dan Undang-Undang //////////////////

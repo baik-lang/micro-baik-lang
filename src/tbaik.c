@@ -153,6 +153,8 @@ int main( int argc, char *argv[] )
   char **get=NULL;
   int  useDefault = 0;
   pg.repl_active = 0;
+  int  i = 0;
+  char cfilename[MAX_STRING_LEN];
 
   #ifdef USE_GTK2
   gchar *mainFile = "./utama.ina";
@@ -248,6 +250,34 @@ int main( int argc, char *argv[] )
   // ------------------------------------------------------------
 
   fclose( fp );
+  
+  if(strncmp(argv[1], "-c", 2) == 0) {
+    if(strlen(argv[2]) > 0) {
+      fprintf( stderr, "buat c source file : %s ...\n", argv[2]);
+
+	  get = split(argv[2], ".");
+      if(get != NULL) {
+        i=0;
+        while(get[i] != NULL && strlen(get[i]) > 0) {
+          i++;
+        }
+      }
+	  memset(&cfilename, '\0', sizeof(cfilename));
+	  //printf("i=%d\n", i);
+	  if(i == 2) {
+        sprintf(cfilename,"%s.c", get[0]);		  
+	  } else if(i == 3) {
+        sprintf(cfilename,"%s.%s.c", get[0],get[1]);
+	  } else if(i == 4) {
+        sprintf(cfilename,"%s.%s.%s.c", get[0],get[1],get[2]);
+	  } 
+
+	  split_free(get);
+
+      createCsource(cfilename);
+    }
+    exit( 0 );
+  }
 
   BaikInit();
 
