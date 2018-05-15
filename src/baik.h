@@ -1698,7 +1698,6 @@ int createCsource(char filename[MAX_STRING_LEN]) {
   FILE *fp=NULL;
   int  len=0, i=0;
 
-  printf(filename);
   fp = fopen(filename, "w");
   if(fp == NULL) {
      Error("Salah: Tidak bisa tulis ke File\n");
@@ -1717,7 +1716,7 @@ int createCsource(char filename[MAX_STRING_LEN]) {
   fprintf(fp, "#include <math.h> \n");
   fprintf(fp, "#include <limits.h> \n");
   fprintf(fp, "#include <errno.h>\n");
-  fprintf(fp, "#include \"baik_header.h\" \n");
+  fprintf(fp, "#include <baik_header.h> \n");
   fprintf(fp, " \n");
   fprintf(fp, "int main( int argc, char *argv[] ) { \n");
   fprintf(fp, "   \n");
@@ -1771,6 +1770,5 @@ int createCsource(char filename[MAX_STRING_LEN]) {
 
   return 0;
 }
-
 
 // Software BAIK ini dilindungi Hak Cipta dan Undang-Undang //////////////////

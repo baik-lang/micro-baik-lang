@@ -48,7 +48,9 @@ wasm:
 
 install:
 	-install -d -m 755 $(PREFIX)/bin
+	-install -d -m 755 $(PREFIX)/usr/src/baik
 	-cp -R -L $(BIN_DIR)/baik $(PREFIX)/bin/
+	-cp -rf * $(PREFIX)/usr/src/baik
 
 uninstall:
 	rm -rf $(PREFIX)/bin/baik

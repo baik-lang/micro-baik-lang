@@ -155,6 +155,7 @@ int main( int argc, char *argv[] )
   pg.repl_active = 0;
   int  i = 0;
   char cfilename[MAX_STRING_LEN];
+  char command[MAX_STRING_LEN];
 
   #ifdef USE_GTK2
   gchar *mainFile = "./utama.ina";
@@ -193,7 +194,7 @@ int main( int argc, char *argv[] )
     showBaikVersion();
   }
 
-  if(argc > 1 && strncmp(argv[1], "-c", 2) != 0 ) {
+  if(argc > 1 && strncmp(argv[1], "-w", 2) != 0 ) {
   	if(!useDefault) {
         if( stat( argv[1], &st ) != 0 ) {
           fprintf( stderr, "File Source tidak ditemukan: %s\n", argv[1] );
@@ -206,7 +207,7 @@ int main( int argc, char *argv[] )
         }
   	}
   }
-  else if(argc > 1 && strncmp(argv[1], "-c", 2) == 0 ) {
+  else if(argc > 1 && strncmp(argv[1], "-w", 2) == 0 ) {
   	if (stat( argv[2], &st ) != 0 ) {
         fprintf( stderr, "File Source tidak ditemukan: %s\n", argv[2] );
         exit( 0 );
@@ -251,9 +252,37 @@ int main( int argc, char *argv[] )
 
   fclose( fp );
   
-  if(strncmp(argv[1], "-c", 2) == 0) {
+  // if(strncmp(argv[1], "-c", 2) == 0) {
+  //   if(strlen(argv[2]) > 0) {
+  //     fprintf( stderr, "buat c source file : %s ...\n", argv[2]);
+
+	//   get = split(argv[2], ".");
+  //     if(get != NULL) {
+  //       i=0;
+  //       while(get[i] != NULL && strlen(get[i]) > 0) {
+  //         i++;
+  //       }
+  //     }
+	//   memset(&cfilename, '\0', sizeof(cfilename));
+	//   //printf("i=%d\n", i);
+	//   if(i == 2) {
+  //       sprintf(cfilename,"%s.c", get[0]);		  
+	//   } else if(i == 3) {
+  //       sprintf(cfilename,"%s.%s.c", get[0],get[1]);
+	//   } else if(i == 4) {
+  //       sprintf(cfilename,"%s.%s.%s.c", get[0],get[1],get[2]);
+	//   } 
+
+	//   split_free(get);
+
+  //     createCsource(cfilename);
+  //   }
+  //   exit( 0 );
+  // }
+
+  if(strncmp(argv[1], "-w", 2) == 0) {
     if(strlen(argv[2]) > 0) {
-      fprintf( stderr, "buat c source file : %s ...\n", argv[2]);
+      fprintf( stderr, "buat webassembly file : %s ...\n", argv[2]);
 
 	  get = split(argv[2], ".");
       if(get != NULL) {
@@ -263,6 +292,7 @@ int main( int argc, char *argv[] )
         }
       }
 	  memset(&cfilename, '\0', sizeof(cfilename));
+    // memset(&command, '\0', sizeof(command));
 	  //printf("i=%d\n", i);
 	  if(i == 2) {
         sprintf(cfilename,"%s.c", get[0]);		  
@@ -272,9 +302,16 @@ int main( int argc, char *argv[] )
         sprintf(cfilename,"%s.%s.%s.c", get[0],get[1],get[2]);
 	  } 
 
-	  split_free(get);
-
-      createCsource(cfilename);
+    createCsource(cfilename);
+    strcpy(command,"emcc -w -o ");
+    strcat(command,get[0]);
+    strcat(command,".js ");
+    strcat(command,"-DIOS -I /usr/src/baik ");
+    strcat(command,cfilename);
+    strcat(command," /usr/src/baik/baik_ident.c /usr/src/baik/baik_stack.c /usr/src/baik/baik_expression.c /usr/src/baik/baik_compare.c /usr/src/baik/baik_factor.c /usr/src/baik/interpreter.c /usr/src/baik/interpreterSub.c /usr/src/baik/interpreterClass.c -lpthread -lm -s WASM=1");
+    // printf(command);
+    split_free(get);
+    system(command);
     }
     exit( 0 );
   }

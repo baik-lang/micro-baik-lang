@@ -104,8 +104,8 @@ extern BAIK_ADDR tmp_pg;
 
 void showBaikVersion() {
   fprintf( stderr, "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15\n");
-  fprintf( stderr, "Copyright Haris Hasanudin 2005-2014\n\n");
-  fprintf( stderr, "cara pakai: baik [-v|-h ] <source file>\n");
+  fprintf( stderr, "cara pakai: baik [-v|-h|-wasm] <source file>\n");
+  fprintf( stderr, "-w : generate file webassembly\n" );
   fprintf( stderr, "-v : lihat versi\n" );
   fprintf( stderr, "-h : lihat cara pakai\n" );
   exit(0);
