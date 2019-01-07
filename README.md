@@ -25,4 +25,6 @@ $ pkg install -y clang make git
 $ git clone https://github.com/anak10thn/micro-baik-lang.git
 $ cd micro-baik-lang
 $ make termux
+$ make install
+$ baik examples/loop.ina
 ```
