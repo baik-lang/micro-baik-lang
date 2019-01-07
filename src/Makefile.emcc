@@ -1,0 +1,16 @@
+INSTALL_LOG = install.log
+VERSION = 8.15
+BIN_DIR = ../bin
+
+.PHONY : all build install uninstall clean esp8266 ios osx
+
+all: build
+
+build:
+	@echo "Compiling.........................."
+	@emcc -w -v $(INCLUDES) $(LIBS) tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm
+	@echo "................................................"
+	@echo "Makefile: Available actions: install, uninstall"
+
+clean:
+	sudo rm -rf $(BIN_DIR)

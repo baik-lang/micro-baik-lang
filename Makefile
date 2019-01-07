@@ -1,10 +1,12 @@
 BUILD_DIRS := src
 
-.PHONY: all build esp8266 ios osx wasm install uninstall clean $(BUILD_DIRS)
+.PHONY: all build esp8266 ios osx wasm termux install uninstall clean $(BUILD_DIRS)
 
 all: $(BUILD_DIRS)
 
 build: $(BUILD_DIRS)
+
+termux: $(BUILD_DIRS)
 
 esp8266: $(BUILD_DIRS)
 

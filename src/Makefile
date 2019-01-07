@@ -8,7 +8,7 @@ SDK_IOS=`xcrun -sdk iphoneos --show-sdk-path`
 CFLAGS_IOS = -DIOS
 GCC_BASE_IOS = $(GCC_BIN_IOS) -Os $(CFLAGS_IOS) -isysroot $(SDK_IOS) -F$(SDK_IOS)/System/Library/Frameworks -F$(SDK_IOS)/System/Library/PrivateFrameworks
 
-.PHONY : all build install uninstall clean esp8266 ios osx wasm
+.PHONY : all build install uninstall clean esp8266 ios osx wasm termux
 
 all: build
 
@@ -16,6 +16,13 @@ build:
 	@echo "Compiling.........................."
 	@mkdir -p $(BIN_DIR)
 	@gcc -w -o $(BIN_DIR)/baik -DUSE_SQLITE $(INCLUDES) $(LIBS) tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c sqlite_common.c -lpthread -lm -lsqlite3
+	@echo "................................................"
+	@echo "Makefile: Available actions: install, uninstall"
+
+termux:
+	@echo "Compiling.........................."
+	@mkdir -p $(BIN_DIR)
+	@gcc -w -o $(BIN_DIR)/baik $(INCLUDES) $(LIBS) tbaik.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm
 	@echo "................................................"
 	@echo "Makefile: Available actions: install, uninstall"
 
