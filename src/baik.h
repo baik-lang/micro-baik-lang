@@ -480,72 +480,33 @@ long createRenban(int mynum)
 /* REPL function                                               */
 /* ----------------------------------------------------------- */
 #define MAX_INPUT_SZ 256
-int REPL_HEADER = 1;
-extern int repl()
-{
-  struct stat st;
-  pg.input = (char *)calloc(st.st_size + 1, sizeof(char));
-  if(pg.input == NULL){
-    printf("kesalahan internal: calloc error (char *input)\n");
-    return 1;
-  }
+void repl(char str[]){
+    int str_size = strlen(str) + 2;
+    pg.source = (char *)malloc(str_size);
 
-  if(REPL_HEADER){
-    printf( "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.15\n");
-    printf( "Copyright Haris Hasanudin 2005-2014");
-    REPL_HEADER = 0;
-    pg.repl_active = 1;
-  }
-  printf("\nbaik >> ");
-  /* Get the input, with size limit. */
-  fgets(pg.input, st.st_size, stdin);
-  if ((strlen(pg.input) > 0) && (pg.input[strlen (pg.input) - 1] == '\n'))
-        pg.input[strlen (pg.input) - 1] = '\0';
-
-  pg.source = (char *)calloc(st.st_size + 1, sizeof(char));
-  if( pg.source == NULL ){
-	  fprintf( stderr, "kesalahan internal: calloc error (pg.source)\n" );
-    exit( 0 );
-  }
-  pg.pt      = 0;
-  pg.back_pt = 0;
-  //strcat(input,"\n");
-  //pg.source = input;
-  strcpy(pg.source,pg.input);
-
-  tmp_pg.source = (char *)calloc(st.st_size + 1, sizeof(char));
-  if( tmp_pg.source == NULL ){
-	fprintf( stderr, "kesalahan internal: calloc error (tmp_pg.source)\n" );
-    exit( -1 );
-  }
-  //tmp_pg.source = input;
-  strcpy(tmp_pg.source,pg.input);
-
-  //printf("%s\n",pg.source);
-  //free(input);
-  //BaikInit();
-  // Read Include File and add into Main Prog
-  IncludeCodeReader();
-
-  pg.pt      = 0;
-  pg.back_pt = 0;
-  memset( &lex, 0, sizeof(BAIK_LEX) );
-
-  ReadSource();
-
-  pg.pt      = 0;
-  pg.back_pt = 0;
-  memset( &lex, 0, sizeof(BAIK_LEX) );
-
-  memset(&returnVal, '\0', sizeof(returnVal));
-  do{
-    if(!Interpreter()){
-      lex.type = _EOF;
+    for(int i=0; i < str_size; i++){
+        if(i == (str_size - 1)){
+            pg.source[i] = '\0' ;
+        }
+        else if (i == (str_size - 2)){
+            pg.source[i] = '\n' ;
+        }
+        else{
+            pg.source[i] = str[i];
+        }
     }
-  }while( lex.type != _EOF );
 
-  //BaikGarbageCollection();
-  return 0;
+    pg.pt      = 0;
+    pg.back_pt = 0;
+    memset( &lex, 0, sizeof(BAIK_LEX) );
+    ReadSource();
+
+    pg.pt      = 0;
+    pg.back_pt = 0;
+    do {
+    Interpreter();
+    }while( lex.type != _EOF );
+    BaikGarbageCollection();
 }
 /* ----------------------------------------------------------- */
 /* Create time based on the current date */
@@ -1422,7 +1383,7 @@ void Error( const char *format, ... )
     MessageBox(NULL, msg, "Kesalahan pada Program BAIK!", 0);
     #else
     fprintf( stderr, "Program Utama : Salah di sekitar baris %u \n", LineCounter() );
-	fprintf( stderr, "posisi pada atau sebelum: %s %s\n", last_ident, lex.detail.ident);
+	  fprintf( stderr, "posisi pada atau sebelum: %s %s\n", last_ident, lex.detail.ident);
     #endif
   }
 
