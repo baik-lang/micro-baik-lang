@@ -11,7 +11,7 @@
 #include "baik_header.h"
 #include <emscripten.h>
 
-void EMSCRIPTEN_KEEPALIVE repl_baik(char str[]){
+void EMSCRIPTEN_KEEPALIVE uBaik(char str[]){
     int str_size = strlen(str) + 2;
     pg.source = (char *)malloc(str_size);
 
@@ -38,4 +38,8 @@ void EMSCRIPTEN_KEEPALIVE repl_baik(char str[]){
     Interpreter();
     }while( lex.type != _EOF );
     BaikGarbageCollection();
+}
+
+void EMSCRIPTEN_KEEPALIVE uBaikVersion() {
+  fprintf( stderr, "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.5\n");
 }
