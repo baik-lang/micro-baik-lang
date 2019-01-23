@@ -1,6 +1,7 @@
 INSTALL_LOG = install.log
 VERSION = 8.15
 BIN_DIR = ../bin
+JS_DIR = ../js
 
 GCC_BIN_IOS=`xcrun -sdk iphoneos -find gcc`
 GCC_IOS=$(GCC_BASE_IOS) -arch armv7 -arch armv7s -arch arm64
@@ -54,13 +55,11 @@ osx: build
 
 wasm:
 	@echo "Compiling.........................."
-	@mkdir -p $(BIN_DIR)
-	@emcc -w $(INCLUDES) $(LIBS) -o ../bin/baik.js -DIOS -DWASM wasm.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm -s WASM=1
+	@emcc -w $(INCLUDES) $(LIBS) -o $(JS_DIR)/baik.js -DIOS -DWASM wasm.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm -s WASM=1
 
 wasm_html:
 	@echo "Compiling.........................."
-	@mkdir -p $(BIN_DIR)
-	@emcc -w $(INCLUDES) $(LIBS) -o ../bin/baik.html -DIOS -DWASM repl.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm -s WASM=1
+	@emcc -w $(INCLUDES) $(LIBS) -o $(JS_DIR)/baik.html -DIOS -DWASM wasm.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm -s WASM=1
 
 install:
 	-install -d -m 755 $(PREFIX)/bin
