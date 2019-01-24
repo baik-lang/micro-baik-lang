@@ -41,5 +41,5 @@ void EMSCRIPTEN_KEEPALIVE uBaik(char str[]){
 }
 
 void EMSCRIPTEN_KEEPALIVE uBaikVersion() {
-  fprintf( stderr, "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.5\n");
+  fprintf( stderr, "µBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.5\n");
 }
