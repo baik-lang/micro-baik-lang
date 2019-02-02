@@ -1,5 +1,5 @@
-# micro BAIK (uBAIK) lang
-uBAIK is a scripting language for IoT
+# micro BAIK (µBAIK) lang
+µBAIK is a scripting language for IoT
 ![baik](baik.gif)
 
 ## Build
@@ -19,7 +19,7 @@ $ sudo make install
 $ baik -w source.ina
 ```
 
-## BAIK on Android (termux)
+## µBAIK on Android (termux)
 ```bash
 $ pkg install -y clang make git
 $ git clone https://github.com/anak10thn/micro-baik-lang.git
