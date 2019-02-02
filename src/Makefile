@@ -55,7 +55,7 @@ osx: build
 
 wasm:
 	@echo "Compiling.........................."
-	@emcc -w $(INCLUDES) $(LIBS) -o $(JS_DIR)/baik.js -DIOS -DWASM wasm.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm -s WASM=1
+	@emcc -w $(INCLUDES) $(LIBS) -o $(JS_DIR)/baik.js -DIOS -DWASM wasm.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm -s WASM=1 #-s NO_EXIT_RUNTIME=1
 
 wasm_html:
 	@echo "Compiling.........................."

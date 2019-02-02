@@ -38,8 +38,9 @@ void EMSCRIPTEN_KEEPALIVE uBaik(char str[]){
     Interpreter();
     }while( lex.type != _EOF );
     BaikGarbageCollection();
+    //exit(1);
 }
 
 void EMSCRIPTEN_KEEPALIVE uBaikVersion() {
-  fprintf( stderr, "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.5\n");
+  printf( "uBAIK (Bahasa Anak Indonesia untuk Komputer) versi 8.5\n");
 }

@@ -5,9 +5,14 @@
 // dan Tomoki serta seluruh putra putri Indonesia
 
 // 2011-06-28
+#ifdef WASM
+#include <emscripten.h>
+#endif
 
 extern void writeLog(char msg[MAX_STRING_LEN]);
-
+#ifdef WASM
+EMSCRIPTEN_KEEPALIVE
+#endif
 void keyTulis ()
 {
   char ident[MAX_IDENT_LEN];

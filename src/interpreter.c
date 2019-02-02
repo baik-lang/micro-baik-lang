@@ -22,6 +22,10 @@
 #include "multiplatform_struct.h"
 #endif
 
+#ifdef WASM
+#include <emscripten.h>
+#endif
+
 #include "stack_funcword_struct.h"
 extern int funcEnum;
 extern void save_funcword(char funcname[MAX_IDENT_LEN], char alias[MAX_IDENT_LEN]);
@@ -1155,8 +1159,11 @@ void IncludeCodeReader()
 }
 
 // ///////////////////////////////////////////////////////////////////////////////
-
+#ifdef WASM
+int EMSCRIPTEN_KEEPALIVE Interpreter(void)
+#else
 int Interpreter(void)
+#endif
 {
   char ident[MAX_IDENT_LEN];
   VAL_LABEL tmpdat; // saving value
@@ -2356,7 +2363,7 @@ int Interpreter(void)
 
   case _END:
     lex.type = _EOF;
-    //BaikGarbageCollection();
+    BaikGarbageCollection();
     break;
 
   case TYPE_SYM:

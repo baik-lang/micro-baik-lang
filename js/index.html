@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ace.js basic sample</title>
+
+    <style type="text/css">
+        #editor {
+            position: absolute;
+            top: 2rem;
+            right: 0;
+            bottom: 13rem;
+            left: 0;
+            width: 70%;
+            height: 100%;
+        }
+        #output {
+            position: absolute;
+            /* bottom: 0; */
+            top: 2rem;
+            /* left: 0; */
+            right: 0;
+            width: 30%;
+            height: 100%;
+        }
+        #topbar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 2rem;
+            padding-top: 0.2rem;
+            padding-left: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 5px 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            top:0;
+        }
+    </style>
+
+
+</head>
+
+<body>
+<div id="topbar">
+    <span> The BAIK Playground</span> <button class="button" id="run">RUN >></button>
+</div>
+<div id="editor">
+tulis "tes rekursif dgn BAIK - Faktorial\n"
+
+A = 5
+
+F = &tesFaktorial(A)
+tulis "F=",F,"\n"
+
+tulis "== selesai ==\n"
+
+tamat
+
+fungsi tesFaktorial(a) {
+    ret = 1
+    tulis "a start=",a,"\n"
+
+    kalau a == 1 maka
+    ret = 1
+    lainnya
+    b = &tesFaktorial(a - 1)
+    ret = a * b
+    akhirkalau
+
+    tulis "a end=",a,"\n"
+
+    balik ret
+}
+
+</div>
+<div id="output">
+<iframe id="frame" src="" width="100%" height="100%"></iframe>
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'></script>
+<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    //editor.getSession().setMode("ace/mode/javascript");
+    $(document).ready(()=>{
+        var baikCode;
+        $("#run").click(()=>{
+            baikCode = encodeURIComponent(editor.getValue());
+            $("#frame").attr("src", location.href+"baik.html?code="+baikCode);
+        });
+    });
+</script>
+
+</body>
+
+</html>
