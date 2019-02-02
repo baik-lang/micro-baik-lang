@@ -1,6 +1,10 @@
 # micro BAIK (µBAIK) lang
-µBAIK is a scripting language for IoT
+µBAIK is a scripting language for IoT, web assembly
 ![baik](baik.gif)
+
+## Playground
+https://anak10thn.github.io/micro-baik-lang
+![baik playground](playground.png)
 
 ## Build
 
