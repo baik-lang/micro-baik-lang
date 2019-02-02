@@ -9,7 +9,7 @@ SDK_IOS=`xcrun -sdk iphoneos --show-sdk-path`
 CFLAGS_IOS = -DIOS
 GCC_BASE_IOS = $(GCC_BIN_IOS) -Os $(CFLAGS_IOS) -isysroot $(SDK_IOS) -F$(SDK_IOS)/System/Library/Frameworks -F$(SDK_IOS)/System/Library/PrivateFrameworks
 
-.PHONY : all build install uninstall clean esp8266 ios osx wasm termux repl
+.PHONY : all build install uninstall clean esp8266 ios osx wasm termux repl playground
 
 all: build
 
@@ -56,6 +56,7 @@ osx: build
 wasm:
 	@echo "Compiling.........................."
 	@emcc -w $(INCLUDES) $(LIBS) -o $(JS_DIR)/baik.js -DIOS -DWASM wasm.c baik_ident.c baik_stack.c baik_expression.c baik_compare.c baik_factor.c interpreter.c interpreterSub.c interpreterClass.c -lpthread -lm -s WASM=1 #-s NO_EXIT_RUNTIME=1
+	@cp $(JS_DIR)/baik.js ../docs/baik.js
 
 wasm_html:
 	@echo "Compiling.........................."
@@ -66,6 +67,9 @@ install:
 	-install -d -m 755 $(PREFIX)/usr/src/baik
 	-cp -R -L $(BIN_DIR)/baik $(PREFIX)/bin/
 	-cp -rf * $(PREFIX)/usr/src/baik
+
+playground:
+	docker run --rm -v $(PWD):/src -it apiaryio/emcc:1.36 make wasm
 
 uninstall:
 	rm -rf $(PREFIX)/bin/baik
