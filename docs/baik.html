@@ -5,21 +5,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>baik online</title>
+  <style>
+    body {
+      font-size: 11pt;
+      font-family: Inconsolata, monospace;
+      color: white;
+      background-color: black;
+    }
+  </style>
   <script src="baik.js"></script>
   <script src="main.js"></script>
   <script>
     console.log = function (message) {
-      document.write(message+"<br>");
+      document.write(message + "<br>");
     }
     console.warn = function (message) {
-      document.write("<p color='yellow'>"+message+"</p>");
+      document.write("<p color='yellow'>" + message + "</p>");
     }
-    try{
+    try {
       var ptr = allocate(intArrayFromString(unescape(getAllUrlParams().code)), 'i8', ALLOC_NORMAL);
       _uBaik(ptr);
       _exit();
     }
-    catch(err) {
+    catch (err) {
       // return;
     }
   </script>
