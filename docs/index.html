@@ -86,7 +86,7 @@ fungsi tesFaktorial(a) {
 </div>
 <div id="output">
 bagikan kode sumbermu:
-<input type="text" width="100%" id="sourcecode">
+<input type="text" width="100%" id="sourceCode"> <button id="copyUrl">Salin</button>
 <iframe id="frame" src="" width="100%" height="100%"></iframe>
 </div>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'></script>
@@ -100,13 +100,19 @@ bagikan kode sumbermu:
         $("#run").click(()=>{
             var baikCode = encodeURIComponent(editor.getValue());
             $("#frame").attr("src", location.origin+location.pathname+"baik.html?code="+baikCode);
-            $("#sourcecode").val(location.origin+location.pathname+"?code="+baikCode);
+            $("#sourceCode").val(location.origin+location.pathname+"?code="+baikCode);
         });
+
         if(getAllUrlParams().code){
             $("#frame").attr("src", location.origin+location.pathname+"baik.html?code="+getAllUrlParams().code);
             editor.setValue("");
             editor.session.insert({row:0, column:0}, decodeURIComponent(getAllUrlParams().code))
         }
+
+        $("#copyUrl").click(()=>{
+            copyToClipboard("sourceCode");
+        });
+
     });
 </script>
 
