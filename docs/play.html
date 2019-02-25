@@ -101,12 +101,12 @@ bagikan kode sumbermu:
     $(document).ready(()=>{
         $("#run").click(()=>{
             var baikCode = encodeURIComponent(editor.getValue());
-            $("#frame").attr("src", location.origin+"baik.html?code="+baikCode);
-            $("#sourceCode").val(location.origin+"?code="+baikCode);
+            $("#frame").attr("src", location.origin+"/baik.html?code="+baikCode);
+            $("#sourceCode").val(location.origin+"/play.html?code="+baikCode);
         });
 
         if(getAllUrlParams().code){
-            $("#frame").attr("src", location.origin+"baik.html?code="+getAllUrlParams().code);
+            $("#frame").attr("src", location.origin+"/baik.html?code="+getAllUrlParams().code);
             editor.setValue("");
             editor.session.insert({row:0, column:0}, decodeURIComponent(getAllUrlParams().code))
         }
