@@ -3,7 +3,7 @@
 ![baik](baik.gif)
 
 ## Playground
-https://anak10thn.github.io/micro-baik-lang
+http://baik-lang.id/play.html
 ![baik playground](playground.png)
 
 ## Build
