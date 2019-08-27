@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BAIK X (BAIX) Playground</title>
+
+    <style type="text/css">
+        #editor {
+            position: absolute;
+            top: 2rem;
+            right: 0;
+            bottom: 13rem;
+            left: 0;
+            width: 70%;
+            height: 100%;
+        }
+
+        #out {
+            position: absolute;
+            /* bottom: 0; */
+            top: 0.8rem;
+            /* left: 0; */
+            right: 0;
+            width: 30%;
+            height: 100%;
+        }
+
+        #topbar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 2rem;
+            padding-top: 0.2rem;
+            padding-left: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 5px 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            top: 0;
+        }
+
+        #output {
+            font-size: 11pt;
+            font-family: Inconsolata, monospace;
+            color: white;
+            background-color: black;
+            height: 100%;
+            overflow-y: scroll;
+            padding-left: 10px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div id="topbar">
+        <span> BAIK X Playground</span> <button class="button" id="run" style="
+            padding-bottom: 2px;
+            border-top-width: 2px;
+            padding-top: 2px;
+        ">RUN >></button>
+        <select class="button" id="example">
+            <option value="halo">Contoh</option>
+            <option value="halo">Halo Dunia</option>
+            <option value="fungsi">Fungsi</option>
+            <option value="negasi">Negasi</option>
+            <option value="bubblesort">Bubble Sort</option>
+            <option value="rekursif">Rekursif</option>
+        </select>
+        <!-- Place this tag where you want the button to render. -->
+        <a class="github-button" href="https://github.com/anak10thn/micro-baik-lang" data-show-count="true"
+            aria-label="Star anak10thn/micro-baik-lang on GitHub">Star</a>
+    </div>
+
+    <div id="editor">tulis("Halo Dunia!");</div>
+    <div id="out">
+        bagikan kode sumbermu:
+        <input type="text" width="100%" id="sourceCode"> <button id="copyUrl">Salin</button>
+        <div id="output"></div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js'></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script type='text/javascript'>
+        var examples = {
+            halo : "tulis(%22halo%20dunia!%22)%3B",
+            fungsi : "fungsi%20test(a%2Cb)%7B%0A%20%20%20%20tulis(%22fungsi%20%3A%22%2Ca%2Cb%2C%22%5Cn%22)%3B%0A%7D%0A%0Atest(1%2C2)%3B%0A%0Afungsi%20tambah(a%2Cb)%7B%0A%20%20%20%20balik%20a%2Bb%3B%0A%7D%0A%0Atulis(%22Penjumlahan%20%3A%22%2Ctambah(1%2C2)%2C%22%5Cn%22)%3B",
+            negasi : "isi%20a%20%3D%20benar%3B%0Atulis(%22nilai%20a%20%3A%22%2Ca)%3B%0Atulis(%22nilai%20(negasi)%20a%20%3A%22%2C!a)%3B",
+            bubblesort : "%2F*%0AContoh%20Bubble%20Sort%0A*%2F%0A%0Afungsi%20ShowData(X%2C%20N)%20%7B%0A%20%20untuk(isi%20i%3D0%3B%20i%3CN%3B%20i%2B%2B)%7B%0A%20%20%20tulis(X%5Bi%5D)%3B%0A%20%20%7D%0A%7D%0A%0Afungsi%20BubleSort(XX%2C%20NN)%20%7B%0A%20%20untuk(isi%20k%3D0%3B%20k%20%3C%20NN%20-%201%3B%20k%2B%2B)%7B%0A%20%20%20%20tulis(%22--%3Esorting%20step%3D%22%2Ck)%3B%0A%20%20%20%20untuk(isi%20l%3DNN-1%3B%20l%20%3E%20k%3B%20l%3Dl-1)%7B%0A%20%20%20%20%20%20jika(XX%5Bl-1%5D%20%3E%20XX%5Bl%5D)%7B%0A%20%20%20%20%20%20%20%20isi%20tmp%20%3D%20XX%5Bl%5D%3B%0A%20%20%20%20%20%20%20%20XX%5Bl%5D%20%3D%20XX%5Bl-1%5D%3B%0A%20%20%20%20%20%20%20%20XX%5Bl-1%5D%20%3D%20tmp%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%20%20%20%20ShowData(XX%2C%20NN)%0A%20%20%7D%0A%20%20balik%20XX%3B%0A%7D%0A%0Atulis(%22Bubble%20Sort%20dengan%20BAIK%5Cn%22)%3B%0A%0Aisi%20x%20%3D%20%5B9%2C%204%2C%206%2C%202%2C%201%2C%208%5D%3B%0A%0Aisi%20NUMDATA%20%3D%20x.panjang%3B%0Atulis(%22NUMDATA%20%3D%20%22%2C%20NUMDATA%2C%20%22%5Cn%22)%3B%0Atulis(%22------------------------%5Cn%22)%3B%0A%0Atulis(%22Sebelum%20Bubble%20sort%20%3A%20%22)%3B%0AShowData(x%2C%20NUMDATA)%3B%0A%0Ax%20%3D%20BubleSort(x%2C%20NUMDATA)%3B%0A%0Atulis(%22Setelah%20Bubble%20sort%20%3A%20%22)%3B%0AShowData(x%2C%20NUMDATA)%3B%0A",
+            rekursif : "tulis(%22tes%20rekursif%20dgn%20BAIK%20-%20Faktorial%22)%3B%0A%0Afungsi%20tesFaktorial(a)%20%7B%0A%20%20%20%20isi%20ret%20%3D%201%3B%0A%20%20%20%20tulis(%22a%20start%3D%22%2Ca)%3B%0A%0A%20%20%20%20jika%20(a%20%3D%3D%3D%201)%7B%0A%20%20%20%20%20%20%20%20ret%20%3D%201%3B%0A%20%20%20%20%7D%0A%20%20%20%20lainnya%7B%0A%20%20%20%20%20%20%20%20isi%20b%20%3D%20tesFaktorial(a%20-%201)%3B%0A%20%20%20%20%20%20%20%20ret%20%3D%20a%20*%20b%3B%0A%20%20%20%20%7D%0A%0A%20%20%20%20tulis%20(%22a%20end%3D%22%2Ca)%3B%0A%20%20%20%20balik%20ret%3B%0A%7D%0A%0Aisi%20A%20%3D%205%3B%0A%0Aisi%20F%20%3D%20tesFaktorial(A)%3B%0Atulis(%22F%3D%22%2CF)%3B%0A%0Atulis(%22%3D%3D%20selesai%20%3D%3D%22)%3B",
+        }
+        var Module = {
+            preRun: [],
+            postRun: [],
+            print: (function () {
+                var element = document.getElementById('output');
+                if (element) element.innerHTML = ''; 
+                return function (text) {
+                    if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                    text.replace(/&/g, "&amp;");
+                    text.replace(/</g, "&lt;");
+                    text.replace(/>/g, "&gt;");
+                    text = text.replace(/\\x0a/g, "<br>");
+                    console.log(text);
+                    if (element) {
+                        element.innerHTML += text+"<br>";
+                    }
+                };
+            })(),
+            printErr: function (text) {
+                if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                if (0) { // XXX disabled for safety typeof dump == 'function') {
+                    dump(text + '\n'); // fast, straight to the real console
+                } else {
+                    //   console.error(text);
+                }
+            }
+        }
+
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        //editor.getSession().setMode("ace/mode/baik");
+        // ace.define('ace/mode/baik', ['tulis', 'exports', 'ace/lib/oop', 'ace/mode/text', 'ace/mode/baik_highlight_rules'], (acequire, exports) => {
+        //     const oop = acequire('ace/lib/oop');
+        //     const TextMode = acequire('ace/mode/text').Mode;
+        //     const CustomHighlightRules = acequire('ace/mode/baik_highlight_rules').CustomHighlightRules;
+
+        //     oop.inherits(Mode, TextMode); // ACE's way of doing inheritance
+
+        //     exports.Mode = Mode; // eslint-disable-line no-param-reassign
+        // });
+
+        // // This is where we really create the highlighting rules
+        // ace.define('ace/mode/baik_highlight_rules', ['tulis', 'exports', 'ace/lib/oop', 'ace/mode/text_highlight_rules'], (acequire, exports) => {
+        //     const oop = acequire('ace/lib/oop');
+        //     const TextHighlightRules = acequire('ace/mode/text_highlight_rules').TextHighlightRules;
+
+        //     const CustomHighlightRules = function CustomHighlightRules() {
+        //         this.$rules = new TextHighlightRules().getRules(); // Use Text's rules as a base
+        //     };
+
+        //     oop.inherits(CustomHighlightRules, TextHighlightRules);
+
+        //     exports.CustomHighlightRules = CustomHighlightRules;
+        // });
+        function baix(code) {
+            var ptr = allocate(intArrayFromString(unescape(code)), 'i8', ALLOC_NORMAL);
+            _baik(ptr);
+        }
+
+        function getAllUrlParams(url) {
+            // get query string from url (optional) or window
+            var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+            // we'll store the parameters here
+            var obj = {};
+
+            // if query string exists
+            if (queryString) {
+
+                // stuff after # is not part of query string, so get rid of it
+                queryString = queryString.split('#')[0];
+
+                // split our query string into its component parts
+                var arr = queryString.split('&');
+
+                for (var i = 0; i < arr.length; i++) {
+                    // separate the keys and the values
+                    var a = arr[i].split('=');
+
+                    // set parameter name and value (use 'true' if empty)
+                    var paramName = a[0];
+                    var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+                    // (optional) keep case consistent
+                    paramName = paramName.toLowerCase();
+                    if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
+
+                    // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+                    if (paramName.match(/\[(\d+)?\]$/)) {
+
+                        // create key if it doesn't exist
+                        var key = paramName.replace(/\[(\d+)?\]/, '');
+                        if (!obj[key]) obj[key] = [];
+
+                        // if it's an indexed array e.g. colors[2]
+                        if (paramName.match(/\[\d+\]$/)) {
+                            // get the index value and add the entry at the appropriate position
+                            var index = /\[(\d+)\]/.exec(paramName)[1];
+                            obj[key][index] = paramValue;
+                        } else {
+                            // otherwise add the value to the end of the array
+                            obj[key].push(paramValue);
+                        }
+                    } else {
+                        // we're dealing with a string
+                        if (!obj[paramName]) {
+                            // if it doesn't exist, create property
+                            obj[paramName] = paramValue;
+                        } else if (obj[paramName] && typeof obj[paramName] === 'string') {
+                            // if property does exist and it's a string, convert it to an array
+                            obj[paramName] = [obj[paramName]];
+                            obj[paramName].push(paramValue);
+                        } else {
+                            // otherwise add the property
+                            obj[paramName].push(paramValue);
+                        }
+                    }
+                }
+            }
+
+            return obj;
+        }
+
+        function copyToClipboard(selector) {
+            /* Get the text field */
+            var copyText = document.getElementById(selector);
+
+            /* Select the text field */
+            copyText.select();
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+
+            /* Alert the copied text */
+            //alert(": " + copyText.value);
+            alert("Kode sumber tersalin.");
+        }
+
+        $(document).ready(() => {
+            $("#run").click(() => {
+                var element = document.getElementById('output');
+                if (element) element.innerHTML = ''; 
+                var baikCode = encodeURIComponent(editor.getValue());
+                baix(editor.getValue());
+                $("#sourceCode").val(location.origin + "/?code=" + baikCode);
+            });
+            $("#copyUrl").click(() => {
+                copyToClipboard("sourceCode");
+            });
+            $("#example").change(()=>{
+                editor.setValue("");
+                editor.session.insert({ row: 0, column: 0 }, decodeURIComponent(examples[$("#example").val()]))
+            });
+            if (getAllUrlParams().code) {
+                editor.setValue("");
+                editor.session.insert({ row: 0, column: 0 }, decodeURIComponent(getAllUrlParams().code))
+                //baix(decodeURIComponent(getAllUrlParams().code));
+            }
+        });
+    </script>
+    <script async type="text/javascript" src="baik.js"></script>
+</body>
+
+</html>

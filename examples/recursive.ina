@@ -1,30 +1,29 @@
-tulis "tes rekursif dgn BAIK - 01\n"
 
-A = 1
+tulis "tes rekursif dgn BAIK - Faktorial\n"
 
-F = &tesRec(A)
+A = 5
 
+F = &tesFaktorial(A)
 tulis "F=",F,"\n"
+
 tulis "== selesai ==\n"
 
 tamat
 
+fungsi tesFaktorial(a) {
+    ret = 1
+    tulis "a start=",a,"\n"
 
-fungsi tesRec(a) {
-  ret = 0
+    kalau a == 1 maka
+    ret = 1
+    lainnya
+    b = &tesFaktorial(a - 1)
+    ret = a * b
+    akhirkalau
 
-  tulis "a START========",a,"\n"
+    tulis "a end=",a,"\n"
 
-  kalau a == 10 maka
-    ret = a
-  lainnya
-    tulis "a else=",a,"\n"
-    B = a + 1
-    ret = &tesRec(B)
-
-  akhirkalau
-
-  tulis "a end=",a,"\n"
-
-  balik ret
+    balik ret
 }
+
+
