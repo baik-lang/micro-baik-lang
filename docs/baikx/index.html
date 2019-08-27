@@ -247,7 +247,7 @@
                 if (element) element.innerHTML = ''; 
                 var baikCode = encodeURIComponent(editor.getValue());
                 baix(editor.getValue());
-                $("#sourceCode").val(location.origin + "/?code=" + baikCode);
+                $("#sourceCode").val(location.origin + "/baikx/?code=" + baikCode);
             });
             $("#copyUrl").click(() => {
                 copyToClipboard("sourceCode");
